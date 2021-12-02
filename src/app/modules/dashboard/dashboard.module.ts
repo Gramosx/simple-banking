@@ -12,8 +12,17 @@ import { TransactionTableComponent } from './transaction-table/transaction-table
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { TransferComponent } from './transfer/transfer.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { DepositComponent } from './deposit/deposit.component';
 @NgModule({
-  declarations: [DashboardComponent, TransactionTableComponent, TransferComponent],
+  declarations: [
+    DashboardComponent,
+    TransactionTableComponent,
+    TransferComponent,
+    WithdrawComponent,
+    DepositComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoute),
@@ -21,6 +30,7 @@ import { TransferComponent } from './transfer/transfer.component';
     MatTableModule,
     MatCardModule,
     MatGridListModule,
+    MatDialogModule,
   ],
 })
 export class DashboardModule {}

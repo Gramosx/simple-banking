@@ -4,9 +4,27 @@
     >Your Current Balance is : {{ currentBal$ }}</mat-card
   >
   <div style="width: 100%; margin: 12px">
-    <button style="margin: 0px 6px" mat-raised-button>Deposit</button>
-    <button style="margin: 0px 6px" mat-raised-button>Withdraw</button>
-    <button style="margin: 0px 6px" mat-raised-button>Transfer</button>
+    <button
+      style="margin: 0px 6px"
+      mat-raised-button
+      (click)="openDepositDialog()"
+    >
+      Deposit
+    </button>
+    <button
+      style="margin: 0px 6px"
+      mat-raised-button
+      (click)="openWithdrawDialog()"
+    >
+      Withdraw
+    </button>
+    <button
+      style="margin: 0px 6px"
+      mat-raised-button
+      (click)="openTransferDialog()"
+    >
+      Transfer
+    </button>
   </div>
 </div>
 

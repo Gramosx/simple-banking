@@ -90,13 +90,11 @@ export class BankingService {
     let _currentBal: number = 0;
     this.getTransactionsByUserId(userId).forEach((x) => {
       x.forEach((sigleTran: Transaction) => {
-        console.log(sigleTran);
         if (sigleTran.transactionType)
           _currentBal = _currentBal + sigleTran.amount;
         else _currentBal = _currentBal - sigleTran.amount;
       });
     });
-    console.log(_currentBal);
     return _currentBal;
   }
 }

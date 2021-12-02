@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BankingService } from 'src/app/core/banking/banking.service';
 import { user } from 'src/app/core/data';
 import { User } from 'src/app/core/user.types';
@@ -18,6 +19,7 @@ export class TransferComponent implements OnInit {
     public dialogRef: MatDialogRef<TransferComponent>,
     private _formBuilder: FormBuilder,
     private _bankingService: BankingService,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { userId: number }
   ) {}
 
@@ -45,8 +47,11 @@ export class TransferComponent implements OnInit {
         dt.to,
         dt.amount
       );
+
       this.dialogRef.close();
+      this._snackBar.open('Transcation Complete')._dismissAfter(2000);
     } catch (err) {
+      this._snackBar.open(err)._dismissAfter(2000);
       console.log(err);
     }
     //Inform User

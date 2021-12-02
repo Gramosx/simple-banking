@@ -4,10 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { RouterModule } from '@angular/router';
 import { dashboardRoute } from './dashboard.routing';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -19,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { DebitCreditComponent } from './debit-credit/debit-credit.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -39,6 +37,7 @@ import { DebitCreditComponent } from './debit-credit/debit-credit.component';
     FormsModule,
     MatInputModule,
     MatSelectModule,
+    MatSnackBarModule,
   ],
   providers: [
     {

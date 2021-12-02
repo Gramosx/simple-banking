@@ -1,0 +1,15 @@
+<h1 style="padding: 12px">User Information</h1>
+<div style="display: flex; justify-content: space-between; padding: 12px">
+  <mat-card style="width: 100%; margin: 12px"
+    >Your Current Balance is : {{ currentBal$ }}</mat-card
+  >
+  <div style="width: 100%; margin: 12px">
+    <button style="margin: 0px 6px" mat-raised-button>Deposit</button>
+    <button style="margin: 0px 6px" mat-raised-button>Withdraw</button>
+    <button style="margin: 0px 6px" mat-raised-button>Transfer</button>
+  </div>
+</div>
+
+<app-transaction-table
+  [transaction$]="this.transaction$"
+></app-transaction-table>

@@ -26,6 +26,7 @@ export class TransactionTableComponent implements OnInit {
     return trans.transactionType ? 0 : trans.amount;
   }
   getAsOfBal(trans: Transaction) {
-    this.transaction$.pipe();
+    // No Unique Identification is declared on Transactions ,
+    // hence their is no error - free way to get AS OF BAL
   }
 }

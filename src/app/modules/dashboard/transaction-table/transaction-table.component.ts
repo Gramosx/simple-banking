@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,7 +16,7 @@ export class TransactionTableComponent implements OnInit {
 
   displayedColumns: string[] = ['date', 'debit', 'credit', 'bal'];
 
-  constructor() {}
+  constructor(private dialogRef: MatDialogRef<TransactionTableComponent>) {}
 
   ngOnInit(): void {}
   getCreditBal(trans: Transaction) {
@@ -23,5 +24,8 @@ export class TransactionTableComponent implements OnInit {
   }
   getDebitBal(trans: Transaction) {
     return trans.transactionType ? 0 : trans.amount;
+  }
+  getAsOfBal(trans: Transaction) {
+    this.transaction$.pipe();
   }
 }

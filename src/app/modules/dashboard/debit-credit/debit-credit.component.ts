@@ -2,23 +2,25 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BankingService } from 'src/app/core/banking/banking.service';
+import { Transaction } from 'src/app/core/banking/banking.types';
 import { user } from 'src/app/core/data';
 import { User } from 'src/app/core/user.types';
 
 @Component({
-  selector: 'app-transfer',
-  templateUrl: './transfer.component.html',
-  styleUrls: ['./transfer.component.scss'],
+  selector: 'app-debit-credit',
+  templateUrl: './debit-credit.component.html',
+  styleUrls: ['./debit-credit.component.scss'],
 })
-export class TransferComponent implements OnInit {
+export class DebitCreditComponent implements OnInit {
   transForm: FormGroup;
   user: User[];
   currentBal: number = 0;
   constructor(
-    public dialogRef: MatDialogRef<TransferComponent>,
+    public dialogRef: MatDialogRef<DebitCreditComponent>,
     private _formBuilder: FormBuilder,
     private _bankingService: BankingService,
-    @Inject(MAT_DIALOG_DATA) public data: { userId: number }
+
+    @Inject(MAT_DIALOG_DATA) public data: { userId: number; type: boolean } // False for Debit , True for Credit
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +29,6 @@ export class TransferComponent implements OnInit {
       this.data.userId
     );
     this.transForm = this._formBuilder.group({
-      to: [null, Validators.required],
       amount: [null, Validators.required],
     });
   }
@@ -37,18 +38,22 @@ export class TransferComponent implements OnInit {
     this.transForm.markAllAsTouched();
     if (this.transForm.invalid) return console.log('invalid Form');
 
-    let dt = this.transForm.value;
+    //Chec for Debit Type or Credit
     //Submit Data
     try {
-      this._bankingService.createTransferTransaction(
-        this.data.userId,
-        dt.to,
-        dt.amount
-      );
+      if (this.data.type)
+        this._bankingService.createCreditTransaction(
+          this.data.userId,
+          this.transForm.value.amount
+        );
+      else
+        this._bankingService.createDebitTransaction(
+          this.data.userId,
+          this.transForm.value.amount
+        );
       this.dialogRef.close();
     } catch (err) {
       console.log(err);
     }
-    //Inform User
   }
 }

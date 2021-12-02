@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BankingService } from 'src/app/core/banking/banking.service';
 import { Transaction } from 'src/app/core/banking/banking.types';
-import { User } from 'src/app/core/user.types';
-import { UserService } from 'src/app/core/user/user.service';
-import { DepositComponent } from './deposit/deposit.component';
+import { DebitCreditComponent } from './debit-credit/debit-credit.component';
 import { TransferComponent } from './transfer/transfer.component';
-import { WithdrawComponent } from './withdraw/withdraw.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,10 +18,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _bankingService: BankingService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _change: ChangeDetectorRef
   ) {}
   selectedUserId = 0;
-  currentBal$ = 0;
+  _currentBal: number = 0;
 
   ngOnInit(): void {
     this._route.paramMap.subscribe((val) => {
@@ -32,30 +30,27 @@ export class DashboardComponent implements OnInit {
       this.transaction$ = this._bankingService.getTransactionsByUserId(
         this.selectedUserId
       );
-      this.currentBal$ = this._bankingService.getCurrentBalanceByUserId(
+      this._currentBal = this._bankingService.getCurrentBalanceByUserId(
         this.selectedUserId
       );
     });
   }
-  openDepositDialog() {
-    const dialogRef = this.dialog.open(DepositComponent, {
-      width: '250px',
-      data: { userId: this.selectedUserId },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      //Check For Changes
-    });
+  get currentBal() {
+    return this._currentBal;
   }
-  openWithdrawDialog() {
-    const dialogRef = this.dialog.open(WithdrawComponent, {
+
+  //False for Debit ,True for credit
+  openDialog(type: boolean) {
+    const dialogRef = this.dialog.open(DebitCreditComponent, {
       width: '250px',
-      data: { userId: this.selectedUserId },
+      data: { userId: this.selectedUserId, type: type },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
+      this._currentBal = this._bankingService.getCurrentBalanceByUserId(
+        this.selectedUserId
+      );
       //Check For Changes
     });
   }
@@ -68,6 +63,9 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       //Check For Changes
+      this._currentBal = this._bankingService.getCurrentBalanceByUserId(
+        this.selectedUserId
+      );
     });
   }
 }

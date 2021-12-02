@@ -29,26 +29,74 @@ export class BankingService {
     this._transactions.next(updatedValue);
   }
 
-  createTransferTransaction(fromUser: User, toUser: User, amount: number) {
+  createTransferTransaction(fromUserId: number, toUserId: number, amount) {
     // Check for Available balance in fromUser
+    let bal = this.getCurrentBalanceByUserId(fromUserId);
+
+    if (amount > bal) throw new Error('Insufficient Balanace');
     //Create Two Transaction
-    //One to debit current user
-    //One to credit other user
+
+    //Debit From Current User
+    let debitTrans: Transaction = {
+      date: Date.now().toString(),
+      userId: fromUserId,
+      transactionType: false,
+      amount: parseInt(amount),
+    };
+    //Create Credit Trans
+    let creditTrans: Transaction = {
+      date: Date.now().toString(),
+      userId: toUserId,
+      transactionType: true,
+      amount: parseInt(amount),
+    };
+    //Add Transction To master
+
+    this.addTransaction(debitTrans);
+    this.addTransaction(creditTrans);
   }
-  checkForPositiveBalance(userId: number, ammount: number) {
-    //get Current Balance of user
-    //If Eligible send true
+
+  createDebitTransaction(id: number, amount) {
+    // Check for Available balance in fromUser
+    let bal = this.getCurrentBalanceByUserId(id);
+
+    if (amount > bal) throw new Error('Insufficient Balanace');
+
+    //Debit From Current User
+    let debitTrans: Transaction = {
+      date: Date.now().toString(),
+      userId: id,
+      transactionType: false, // False as it is Debit Transaction
+      amount: parseInt(amount),
+    };
+    this.addTransaction(debitTrans);
   }
+  createCreditTransaction(id: number, amount) {
+    // Check for Available balance in fromUser
+    let bal = this.getCurrentBalanceByUserId(id);
+
+    //Credit From Current User
+    let debitTrans: Transaction = {
+      date: Date.now().toString(),
+      userId: id,
+      transactionType: true, // False as it is Debit Transaction
+      amount: parseInt(amount),
+    };
+    this.addTransaction(debitTrans);
+  }
+
   getCurrentBalanceByUserId(userId: number) {
     //Get All Transaction and Subtract Debit and Credit to get available balance
-    let _currentBal = 0;
+    let _currentBal: number = 0;
     this.getTransactionsByUserId(userId).forEach((x) => {
-      x.forEach((sigleTran) => {
-        _currentBal += sigleTran.transactionType
-          ? sigleTran.amount
-          : -sigleTran.amount;
+      x.forEach((sigleTran: Transaction) => {
+        console.log(sigleTran);
+        if (sigleTran.transactionType)
+          _currentBal = _currentBal + sigleTran.amount;
+        else _currentBal = _currentBal - sigleTran.amount;
       });
     });
+    console.log(_currentBal);
     return _currentBal;
   }
 }

@@ -1,17 +1,10 @@
-<h2 mat-dialog-title>Transfer Money</h2>
+<h2 mat-dialog-title>
+  {{ this.data.type ? "Deposit Money" : "Withdraw Money" }}
+</h2>
 
 <mat-dialog-content class="mat-typography">
   <p>Your Current Balance {{ this.currentBal }}</p>
   <form [formGroup]="transForm">
-    <mat-form-field class="w-full" appearance="outline">
-      <mat-label>Send Money To</mat-label>
-      <mat-select [formControlName]="'to'" required>
-        <mat-option *ngFor="let usr of user" [value]="usr.id">{{
-          usr.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
     <mat-form-field class="w-full" appearance="outline">
       <mat-label>Amount</mat-label>
       <input matInput [formControlName]="'amount'" />

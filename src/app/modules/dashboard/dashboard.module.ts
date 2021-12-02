@@ -12,16 +12,19 @@ import { TransactionTableComponent } from './transaction-table/transaction-table
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { TransferComponent } from './transfer/transfer.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { WithdrawComponent } from './withdraw/withdraw.component';
-import { DepositComponent } from './deposit/deposit.component';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { DebitCreditComponent } from './debit-credit/debit-credit.component';
 @NgModule({
   declarations: [
     DashboardComponent,
     TransactionTableComponent,
     TransferComponent,
-    WithdrawComponent,
-    DepositComponent,
+    DebitCreditComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +34,17 @@ import { DepositComponent } from './deposit/deposit.component';
     MatCardModule,
     MatGridListModule,
     MatDialogModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
   ],
 })
 export class DashboardModule {}
